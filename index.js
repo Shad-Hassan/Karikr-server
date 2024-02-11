@@ -39,6 +39,8 @@ async function run() {
         const serviceCollection = client.db('karikrDB').collection('service');
         // user database
         const userCollection = client.db('karikrDB').collection('user');
+        // order database
+        const orderCollection = client.db('karikrDB').collection('order');
         
         
         //  Crud Operations
@@ -56,12 +58,51 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
           })
-        // get services
+        // get users
         app.get('/users', async (req, res) => {
             const cursor = userCollection.find();
             const result = await cursor.toArray();
             res.send(result);
           })
+        // get orders
+        app.get('/orders', async (req, res) => {
+            const cursor = userCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+          })
+
+        
+        
+        // 2) Post data through app.post
+        // post products
+        app.post('/products', async (req, res) => {
+            const newProduct = req.body;
+            console.log(newProduct);
+            const result = await productCollection.insertOne(newProduct);
+            res.send(result)
+          })
+        // post service
+        app.post('/service', async (req, res) => {
+            const newService = req.body;
+            console.log(newService);
+            const result = await serviceCollection.insertOne(newService);
+            res.send(result)
+          })
+        // post users
+        app.post('/users', async (req, res) => {
+            const newUser = req.body;
+            console.log(newUser);
+            const result = await userCollection.insertOne(newUser);
+            res.send(result)
+          })
+        // post orders
+        app.post('/order', async (req, res) => {
+            const newOrder = req.body;
+            console.log(newOrder);
+            const result = await orderCollection.insertOne(newOrder);
+            res.send(result)
+          })
+
 
 
         // Send a ping to confirm a successful connection
