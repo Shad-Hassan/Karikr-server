@@ -30,8 +30,38 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
 
-        // database
+        // database Collection 
+
+
+        // product database
+        const productCollection = client.db('karikrDB').collection('products');
+        // service database
+        const serviceCollection = client.db('karikrDB').collection('service');
+        // user database
+        const userCollection = client.db('karikrDB').collection('user');
+        
+        
         //  Crud Operations
+
+        // 1) Get data through app.get
+        // get products
+        app.get('/products', async (req, res) => {
+            const cursor = productCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+          })
+        // get services
+        app.get('/service', async (req, res) => {
+            const cursor = serviceCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+          })
+        // get services
+        app.get('/users', async (req, res) => {
+            const cursor = userCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+          })
 
 
         // Send a ping to confirm a successful connection
