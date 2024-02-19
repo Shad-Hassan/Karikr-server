@@ -40,7 +40,7 @@ async function run() {
         // user database
         const userCollection = client.db('karikrDB').collection('user');
         // order database
-        const orderCollection = client.db('karikrDB').collection('order');
+        const orderCollection = client.db('karikrDB').collection('orders');
         
         
         //  Crud Operations
@@ -66,14 +66,27 @@ async function run() {
           })
         // get orders
         app.get('/orders', async (req, res) => {
-            const cursor = userCollection.find();
+            const cursor = orderCollection.find();
             const result = await cursor.toArray();
             res.send(result);
           })
 
         
         
-        // 2) Post data through app.post
+        // 2) Get Specific Data
+          // get a specific product object
+        app.get('/products/:id', async (req, res) => {
+          const id = req.params.id;
+          const query = { _id: new ObjectId(id) }
+          const result = await productCollection.findOne(query)
+          res.send(result);
+        })
+
+
+
+
+
+        // 3) Post data through app.post
         // post products
         app.post('/products', async (req, res) => {
             const newProduct = req.body;
@@ -96,7 +109,7 @@ async function run() {
             res.send(result)
           })
         // post orders
-        app.post('/order', async (req, res) => {
+        app.post('/orders', async (req, res) => {
             const newOrder = req.body;
             console.log(newOrder);
             const result = await orderCollection.insertOne(newOrder);
