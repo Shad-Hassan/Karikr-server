@@ -81,6 +81,15 @@ async function run() {
           const result = await productCollection.findOne(query)
           res.send(result);
         })
+        // get a specific service object
+        app.get('/service/:id', async (req, res) => {
+          const id = req.params.id;
+          const query = { _id: new ObjectId(id) }
+          const result = await serviceCollection.findOne(query)
+          res.send(result);
+        })
+
+        
 
 
 
