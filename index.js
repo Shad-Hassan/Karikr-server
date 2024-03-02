@@ -88,6 +88,13 @@ async function run() {
           const result = await serviceCollection.findOne(query)
           res.send(result);
         })
+        // get a specific order object
+        app.get('/orders/:id', async (req, res) => {
+          const id = req.params.id;
+          const query = { _id: new ObjectId(id) }
+          const result = await orderCollection.findOne(query)
+          res.send(result);
+        })
 
         
 
@@ -124,6 +131,32 @@ async function run() {
             const result = await orderCollection.insertOne(newOrder);
             res.send(result)
           })
+
+
+          // Delete Operations
+          // Delete a object from the order collection
+          app.delete('/orders/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)}
+            const result = await orderCollection.deleteOne(query);
+            res.send(result)
+          })
+
+          // Patch Operations
+          // patch delivery status
+          app.patch(('/orders/:id'),async(req,res)=>{
+            const id = req.params.id;
+            // Extract what properties you are patching
+            const {delivered, pending} = req.body;
+            const query = {_id: new ObjectId(id)}
+            const patchOrder = {
+              $set:{delivered, pending}
+            };
+
+            const result = await orderCollection.updateOne(query,patchOrder);
+            res.send(result)
+            
+          });
 
 
 
